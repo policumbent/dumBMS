@@ -37,7 +37,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define N_BATTERIES  4  /* has to correspond to adc channels specified in MX */
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -95,6 +94,7 @@ int main(void)
   MX_TIM2_Init();
   MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
+  bat_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "bat.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -57,9 +57,9 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BAT_STATUS_LED_Pin GPIO_PIN_13
-#define BAT_STATUS_LED_GPIO_Port GPIOC
-#define BAT_STATUS_LED_EXTI_IRQn EXTI15_10_IRQn
+#define BUT_BAT_STATUS_LED_Pin GPIO_PIN_13
+#define BUT_BAT_STATUS_LED_GPIO_Port GPIOC
+#define BUT_BAT_STATUS_LED_EXTI_IRQn EXTI15_10_IRQn
 #define CAN_ID_Selector_Pin GPIO_PIN_1
 #define CAN_ID_Selector_GPIO_Port GPIOC
 #define USART_TX_Pin GPIO_PIN_2
