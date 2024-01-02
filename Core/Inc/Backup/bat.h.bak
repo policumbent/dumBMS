@@ -1,0 +1,8 @@
+#ifndef __BAT_H__
+#define __BAT_H__
+
+#include <adc.h>
+
+void bat_init();
+
+#endif  /* __BAT_H__ */
