@@ -6,10 +6,10 @@
 #include "tim.h"
 
 
-#define BATTERY_N 5     /* has to be the same as the batteries slots ->
+#define MAX_BATTERY_N 5     /* has to be the same as the batteries slots ->
                          * - 4x 3S: general bike powering
                          * - 1x 2S: DumBMS powering                           */
-                        
+
 #define BAT_LED_N 3     /* has to be the same as status leds for each battery */
 
 

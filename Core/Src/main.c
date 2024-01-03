@@ -94,7 +94,10 @@ int main(void)
   MX_TIM2_Init();
   MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
+
+  HAL_GPIO_WritePin(LD2_MCU_STATUS_GPIO_Port, LD2_MCU_STATUS_Pin, SET);
   bat_init();
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
