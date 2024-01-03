@@ -37,7 +37,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define N_BATTERIES  4  /* has to correspond to adc channels specified in MX */
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,7 +47,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t dma_bat_buf[N_BATTERIES];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,10 +94,7 @@ int main(void)
   MX_TIM2_Init();
   MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
-
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)dma_bat_buf, N_BATTERIES);
-  HAL_TIM_Base_Start(&htim2);
-
+  bat_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
