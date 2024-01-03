@@ -93,7 +93,6 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM2_Init();
   MX_CAN1_Init();
-  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   bat_init();
   /* USER CODE END 2 */
