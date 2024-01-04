@@ -11,13 +11,38 @@ bat_t batteries[MAX_BATTERY_N];
   *        through the DIP Switch
   */
 void bat_init() {
-    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)bat_dma_buf, MAX_BATTERY_N);
-    HAL_TIM_Base_Start(&htim2);
-
     battery_n += HAL_GPIO_ReadPin(BAT_SEL_0_GPIO_Port, BAT_SEL_0_Pin);
     battery_n += HAL_GPIO_ReadPin(BAT_SEL_1_GPIO_Port, BAT_SEL_1_Pin);
     battery_n += HAL_GPIO_ReadPin(BAT_SEL_2_GPIO_Port, BAT_SEL_2_Pin);
     battery_n += HAL_GPIO_ReadPin(BAT_SEL_3_GPIO_Port, BAT_SEL_3_Pin);
+
+    batteries[0].led_ports[0] = BAT0_LED0_GPIO_Port;
+    batteries[0].led_ports[1] = BAT0_LED1_GPIO_Port;
+    batteries[0].led_pins[0]  = BAT0_LED0_Pin;
+    batteries[0].led_pins[1]  = BAT0_LED1_Pin;
+
+    batteries[1].led_ports[0] = BAT1_LED0_GPIO_Port;
+    batteries[1].led_ports[1] = BAT1_LED1_GPIO_Port;
+    batteries[1].led_pins[0]  = BAT1_LED0_Pin;
+    batteries[1].led_pins[1]  = BAT1_LED1_Pin;
+
+    batteries[2].led_ports[0] = BAT2_LED0_GPIO_Port;
+    batteries[2].led_ports[1] = BAT2_LED1_GPIO_Port;
+    batteries[2].led_pins[0]  = BAT2_LED0_Pin;
+    batteries[2].led_pins[1]  = BAT2_LED1_Pin;
+
+    batteries[3].led_ports[0] = BAT3_LED0_GPIO_Port;
+    batteries[3].led_ports[1] = BAT3_LED1_GPIO_Port;
+    batteries[3].led_pins[0]  = BAT3_LED0_Pin;
+    batteries[3].led_pins[1]  = BAT3_LED1_Pin;
+
+    batteries[4].led_ports[0] = BAT4_LED0_GPIO_Port;
+    batteries[4].led_ports[1] = BAT4_LED1_GPIO_Port;
+    batteries[4].led_pins[0]  = BAT4_LED0_Pin;
+    batteries[4].led_pins[1]  = BAT4_LED1_Pin;
+
+    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)bat_dma_buf, MAX_BATTERY_N);
+    HAL_TIM_Base_Start(&htim2);
 }
 
 

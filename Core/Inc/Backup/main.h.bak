@@ -57,9 +57,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BUT_BAT_STATUS_LED_Pin GPIO_PIN_13
-#define BUT_BAT_STATUS_LED_GPIO_Port GPIOC
-#define BUT_BAT_STATUS_LED_EXTI_IRQn EXTI15_10_IRQn
+#define BUT_BAT_STAT_LED_Pin GPIO_PIN_13
+#define BUT_BAT_STAT_LED_GPIO_Port GPIOC
 #define CAN_ID_Selector_Pin GPIO_PIN_1
 #define CAN_ID_Selector_GPIO_Port GPIOC
 #define USART_TX_Pin GPIO_PIN_2
@@ -78,6 +77,26 @@ void Error_Handler(void);
 #define ADC_BAT3_GPIO_Port GPIOB
 #define ADC_BAT4_Pin GPIO_PIN_1
 #define ADC_BAT4_GPIO_Port GPIOB
+#define BAT0_LED0_Pin GPIO_PIN_12
+#define BAT0_LED0_GPIO_Port GPIOB
+#define BAT0_LED1_Pin GPIO_PIN_13
+#define BAT0_LED1_GPIO_Port GPIOB
+#define BAT1_LED0_Pin GPIO_PIN_14
+#define BAT1_LED0_GPIO_Port GPIOB
+#define BAT1_LED1_Pin GPIO_PIN_15
+#define BAT1_LED1_GPIO_Port GPIOB
+#define BAT2_LED0_Pin GPIO_PIN_6
+#define BAT2_LED0_GPIO_Port GPIOC
+#define BAT2_LED1_Pin GPIO_PIN_7
+#define BAT2_LED1_GPIO_Port GPIOC
+#define BAT3_LED0_Pin GPIO_PIN_8
+#define BAT3_LED0_GPIO_Port GPIOC
+#define BAT3_LED1_Pin GPIO_PIN_9
+#define BAT3_LED1_GPIO_Port GPIOC
+#define BAT4_LED0_Pin GPIO_PIN_8
+#define BAT4_LED0_GPIO_Port GPIOA
+#define BAT4_LED1_Pin GPIO_PIN_9
+#define BAT4_LED1_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
