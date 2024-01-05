@@ -93,6 +93,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM2_Init();
   MX_CAN1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_GPIO_WritePin(LD2_MCU_STATUS_GPIO_Port, LD2_MCU_STATUS_Pin, SET);
@@ -106,7 +107,7 @@ int main(void)
   while (1)
   {
     button_polling();
-    
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

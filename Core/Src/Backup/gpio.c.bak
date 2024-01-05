@@ -67,7 +67,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(BUT_BAT_STAT_LED_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PCPin PCPin PCPin PCPin */
-  GPIO_InitStruct.Pin = CAN_ID_Selector_Pin|BAT_SEL_0_Pin|BAT_SEL_1_Pin|BAT_SEL_2_Pin;
+  GPIO_InitStruct.Pin = CAN_ID_Selector_Pin|BAT_SEL_1_Pin|BAT_SEL_2_Pin|BAT_SEL_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -94,10 +94,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = BAT_SEL_3_Pin;
+  GPIO_InitStruct.Pin = BAT_SEL_4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(BAT_SEL_3_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(BAT_SEL_4_GPIO_Port, &GPIO_InitStruct);
 
 }
 

@@ -58,11 +58,37 @@ void bat_adc_callback() {
 }
 
 
+/**
+ * @brief Turns the LEDs ON or OFF based on led_status field of each battery
+ *        struct; starts the htim3 in interrupt mode
+ */
 void bat_led_status_on_callback() {
+    int i = 0, j = 0;
 
+    for (i = 0; i < battery_n; i++) {
+        for (j = 0; j < BAT_LED_N; j++) {
+            HAL_GPIO_WritePin(batteries[i].led_ports[j], 
+                              batteries[i].led_pins[j],
+                              batteries[i].led_status[j]);
+        }
+    }
+
+    HAL_TIM_Base_Start_IT(&htim3);
 }
 
 
+/**
+ * @brief Called from HAL_TIM_PeriodElapsedCallback, turns OFF all batteries
+ *        status LEDs
+ */
 void bat_led_status_off_callback() {
-    
+    int i = 0, j = 0;
+
+    for (i = 0; i < battery_n; i++) {
+        for (j = 0; j < BAT_LED_N; j++) {
+            HAL_GPIO_WritePin(batteries[i].led_ports[j], 
+                              batteries[i].led_pins[j],
+                              RESET);
+        }
+    }
 }

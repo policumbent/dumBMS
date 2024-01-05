@@ -23,6 +23,8 @@ typedef struct {
 
 void bat_init();
 void bat_adc_callback();
+void bat_led_status_on_callback();
+void bat_led_status_off_callback();
 
 
 #endif /* __BAT_H__ */
