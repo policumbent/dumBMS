@@ -97,6 +97,7 @@ int main(void)
 
   HAL_GPIO_WritePin(LD2_MCU_STATUS_GPIO_Port, LD2_MCU_STATUS_Pin, SET);
   bat_init();
+  button_init();
   
   /* USER CODE END 2 */
 
@@ -104,6 +105,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    button_polling();
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

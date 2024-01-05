@@ -56,3 +56,13 @@ void bat_adc_callback() {
         batteries[i].charge = bat_dma_buf[i];
     }
 }
+
+
+void bat_led_status_on_callback() {
+
+}
+
+
+void bat_led_status_off_callback() {
+    
+}
