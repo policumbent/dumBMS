@@ -11,10 +11,10 @@ bat_t batteries[MAX_BATTERY_N];
   *        through the DIP Switch
   */
 void bat_init() {
-    battery_n += HAL_GPIO_ReadPin(BAT_SEL_0_GPIO_Port, BAT_SEL_0_Pin);
     battery_n += HAL_GPIO_ReadPin(BAT_SEL_1_GPIO_Port, BAT_SEL_1_Pin);
     battery_n += HAL_GPIO_ReadPin(BAT_SEL_2_GPIO_Port, BAT_SEL_2_Pin);
     battery_n += HAL_GPIO_ReadPin(BAT_SEL_3_GPIO_Port, BAT_SEL_3_Pin);
+    battery_n += HAL_GPIO_ReadPin(BAT_SEL_4_GPIO_Port, BAT_SEL_4_Pin);
 
     batteries[0].led_ports[0] = BAT0_LED0_GPIO_Port;
     batteries[0].led_ports[1] = BAT0_LED1_GPIO_Port;

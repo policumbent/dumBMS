@@ -16,6 +16,8 @@
 typedef struct {
     float charge;
     uint8_t led_status[BAT_LED_N];
+    GPIO_TypeDef* led_ports[BAT_LED_N];
+    uint16_t led_pins[BAT_LED_N];
 } bat_t;
 
 
