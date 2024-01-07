@@ -13,7 +13,6 @@
 
 #define BAT_LED_N 2     /* has to be the same as status leds for each battery */
 
-#define BAT_CELL_NOM_VOLT 3.6f
 #define BAT_POLLING_PERIOD 1000u
 
 
