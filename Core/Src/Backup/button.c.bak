@@ -25,7 +25,6 @@ void button_polling() {
             bat_led_status_on_callback();
         }
 
-
         last_time_ms = HAL_GetTick();
     }
 }

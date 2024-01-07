@@ -40,6 +40,7 @@ Core/Src/adc.c \
 Core/Src/bat.c \
 Core/Src/button.c \
 Core/Src/can.c \
+Core/Src/can_dumbms.c \
 Core/Src/dma.c \
 Core/Src/gpio.c \
 Core/Src/main.c \
@@ -67,7 +68,8 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c \
+Lib/policanbent/policanbent.c
 
 
 CPP_SOURCES = \
@@ -143,7 +145,8 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
--IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy
+-IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
+-ILib/policanbent
 
 
 

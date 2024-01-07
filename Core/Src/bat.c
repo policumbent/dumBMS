@@ -1,9 +1,16 @@
 #include "bat.h"
+#include <memory.h>
 
+
+uint32_t bat_last_time_ms;
+uint32_t bat_curr_time_ms;
 
 uint16_t bat_dma_buf[MAX_BATTERY_N];
-uint8_t battery_n = 1;
+uint8_t bat_undervolt_arr[MAX_BATTERY_N];
 bat_t batteries[MAX_BATTERY_N];
+
+
+static void bat_undervolt_err();
 
 
 /**
@@ -11,35 +18,39 @@ bat_t batteries[MAX_BATTERY_N];
   *        through the DIP Switch
   */
 void bat_init() {
-    battery_n += HAL_GPIO_ReadPin(BAT_SEL_1_GPIO_Port, BAT_SEL_1_Pin);
-    battery_n += HAL_GPIO_ReadPin(BAT_SEL_2_GPIO_Port, BAT_SEL_2_Pin);
-    battery_n += HAL_GPIO_ReadPin(BAT_SEL_3_GPIO_Port, BAT_SEL_3_Pin);
-    battery_n += HAL_GPIO_ReadPin(BAT_SEL_4_GPIO_Port, BAT_SEL_4_Pin);
+    batteries[0].led_ports[0]    = BAT0_LED0_GPIO_Port;
+    batteries[0].led_ports[1]    = BAT0_LED1_GPIO_Port;
+    batteries[0].led_pins[0]     = BAT0_LED0_Pin;
+    batteries[0].led_pins[1]     = BAT0_LED1_Pin;
+    batteries[0].is_connected    = 1; // I mean, otherwise this line of code wouldn't be executed
 
-    batteries[0].led_ports[0] = BAT0_LED0_GPIO_Port;
-    batteries[0].led_ports[1] = BAT0_LED1_GPIO_Port;
-    batteries[0].led_pins[0]  = BAT0_LED0_Pin;
-    batteries[0].led_pins[1]  = BAT0_LED1_Pin;
+    batteries[1].led_ports[0]    = BAT1_LED0_GPIO_Port;
+    batteries[1].led_ports[1]    = BAT1_LED1_GPIO_Port;
+    batteries[1].led_pins[0]     = BAT1_LED0_Pin;
+    batteries[1].led_pins[1]     = BAT1_LED1_Pin;
+    batteries[1].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_1_GPIO_Port, BAT_SEL_1_Pin);
 
-    batteries[1].led_ports[0] = BAT1_LED0_GPIO_Port;
-    batteries[1].led_ports[1] = BAT1_LED1_GPIO_Port;
-    batteries[1].led_pins[0]  = BAT1_LED0_Pin;
-    batteries[1].led_pins[1]  = BAT1_LED1_Pin;
+    batteries[2].led_ports[0]    = BAT2_LED0_GPIO_Port;
+    batteries[2].led_ports[1]    = BAT2_LED1_GPIO_Port;
+    batteries[2].led_pins[0]     = BAT2_LED0_Pin;
+    batteries[2].led_pins[1]     = BAT2_LED1_Pin;
+    batteries[2].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_2_GPIO_Port, BAT_SEL_2_Pin);
 
-    batteries[2].led_ports[0] = BAT2_LED0_GPIO_Port;
-    batteries[2].led_ports[1] = BAT2_LED1_GPIO_Port;
-    batteries[2].led_pins[0]  = BAT2_LED0_Pin;
-    batteries[2].led_pins[1]  = BAT2_LED1_Pin;
+    batteries[3].led_ports[0]    = BAT3_LED0_GPIO_Port;
+    batteries[3].led_ports[1]    = BAT3_LED1_GPIO_Port;
+    batteries[3].led_pins[0]     = BAT3_LED0_Pin;
+    batteries[3].led_pins[1]     = BAT3_LED1_Pin;
+    batteries[3].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_3_GPIO_Port, BAT_SEL_3_Pin);
 
-    batteries[3].led_ports[0] = BAT3_LED0_GPIO_Port;
-    batteries[3].led_ports[1] = BAT3_LED1_GPIO_Port;
-    batteries[3].led_pins[0]  = BAT3_LED0_Pin;
-    batteries[3].led_pins[1]  = BAT3_LED1_Pin;
+    batteries[4].led_ports[0]    = BAT4_LED0_GPIO_Port;
+    batteries[4].led_ports[1]    = BAT4_LED1_GPIO_Port;
+    batteries[4].led_pins[0]     = BAT4_LED0_Pin;
+    batteries[4].led_pins[1]     = BAT4_LED1_Pin;
+    batteries[4].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_4_GPIO_Port, BAT_SEL_4_Pin);
 
-    batteries[4].led_ports[0] = BAT4_LED0_GPIO_Port;
-    batteries[4].led_ports[1] = BAT4_LED1_GPIO_Port;
-    batteries[4].led_pins[0]  = BAT4_LED0_Pin;
-    batteries[4].led_pins[1]  = BAT4_LED1_Pin;
+    memset(bat_undervolt_arr, 0, MAX_BATTERY_N);
+
+    bat_last_time_ms = HAL_GetTick();
 
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)bat_dma_buf, MAX_BATTERY_N);
     HAL_TIM_Base_Start(&htim2);
@@ -50,10 +61,35 @@ void bat_init() {
   * @brief When ready, saves the DMA buffered data into the memory
   */
 void bat_adc_callback() {
-    for (int i = 0; i < battery_n; i++) {
+    for (uint8_t i = 0; i < MAX_BATTERY_N; i++) {
         /* TODO: implement a low pass filter and conversion from raw adc data to
-        actual voltage value */ 
-        batteries[i].charge = bat_dma_buf[i];
+           actual voltage value */ 
+        if (batteries[i].is_connected) {
+            batteries[i].charge = bat_dma_buf[i];
+        }
+    }
+}
+
+
+/**
+ * @brief Every BAT_POLLING_PERIOD this function will check any undervoltage on
+ *        the batteries, if so, it will call bat_undervolt_err()
+ */
+void bat_undervolt_check() {
+    uint8_t flg = 0;
+    bat_curr_time_ms = HAL_GetTick();
+
+    if (bat_curr_time_ms - bat_last_time_ms >= BAT_POLLING_PERIOD) {
+        for (uint8_t i = 0; i < MAX_BATTERY_N; i++) {
+            if (batteries[i].charge <= BAT_CELL_NOM_VOLT) {
+                bat_undervolt_arr[i] = 1;
+                flg = 1;
+            }
+        }
+
+        if (flg) {
+            bat_undervolt_err();
+        }
     }
 }
 
@@ -63,10 +99,8 @@ void bat_adc_callback() {
  *        struct; starts the htim3 in interrupt mode
  */
 void bat_led_status_on_callback() {
-    int i = 0, j = 0;
-
-    for (i = 0; i < battery_n; i++) {
-        for (j = 0; j < BAT_LED_N; j++) {
+    for (uint8_t i = 0; i < MAX_BATTERY_N; i++) {
+        for (uint8_t j = 0; j < BAT_LED_N; j++) {
             HAL_GPIO_WritePin(batteries[i].led_ports[j], 
                               batteries[i].led_pins[j],
                               batteries[i].led_status[j]);
@@ -82,13 +116,25 @@ void bat_led_status_on_callback() {
  *        status LEDs
  */
 void bat_led_status_off_callback() {
-    int i = 0, j = 0;
-
-    for (i = 0; i < battery_n; i++) {
-        for (j = 0; j < BAT_LED_N; j++) {
+    for (uint8_t i = 0; i < MAX_BATTERY_N; i++) {
+        for (uint8_t j = 0; j < BAT_LED_N; j++) {
             HAL_GPIO_WritePin(batteries[i].led_ports[j], 
                               batteries[i].led_pins[j],
                               RESET);
         }
     }
+}
+
+
+float bat_get_cell_volt(uint8_t cell_n) {
+    return batteries[cell_n].charge;
+}
+
+
+/**
+ * @brief Sends an undervoltage error message on CAN Bus
+ */
+static void bat_undervolt_err() {
+    can_send_bat_err(bat_undervolt_arr);
+    /* TODO: in the future, this function will handle the battery connection */
 }

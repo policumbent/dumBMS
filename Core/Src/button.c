@@ -1,8 +1,8 @@
 #include "button.h"
 
 
-uint32_t last_time_ms;
-uint32_t curr_time_ms;
+uint32_t but_last_time_ms;
+uint32_t but_curr_time_ms;
 button_t but_bat_stat;
 
 
@@ -13,19 +13,19 @@ static uint8_t button_update_val(button_t *button);
 void button_init() {
     button_val_init(&but_bat_stat, BUT_BAT_STAT_LED_GPIO_Port, BUT_BAT_STAT_LED_Pin);
 
-    last_time_ms = HAL_GetTick();
+    but_last_time_ms = HAL_GetTick();
 }
 
 
 void button_polling() {
-    curr_time_ms = HAL_GetTick();
+    but_curr_time_ms = HAL_GetTick();
 
-    if (curr_time_ms - last_time_ms >= POLLING_PERIOD) {
+    if (but_curr_time_ms - but_last_time_ms >= BUTTON_POLLING_PERIOD) {
         if (!button_update_val(&but_bat_stat)) {
             bat_led_status_on_callback();
         }
 
-        last_time_ms = HAL_GetTick();
+        but_last_time_ms = HAL_GetTick();
     }
 }
 

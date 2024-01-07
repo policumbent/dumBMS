@@ -99,6 +99,7 @@ int main(void)
   HAL_GPIO_WritePin(LD2_MCU_STATUS_GPIO_Port, LD2_MCU_STATUS_Pin, SET);
   bat_init();
   button_init();
+  can_init();
   
   /* USER CODE END 2 */
 
@@ -107,6 +108,8 @@ int main(void)
   while (1)
   {
     button_polling();
+    can_send_bat_status();
+    bat_undervolt_check();
 
     /* USER CODE END WHILE */
 

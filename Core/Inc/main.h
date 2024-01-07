@@ -33,6 +33,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "button.h"
 #include "bat.h"
+#include "can_dumbms.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

@@ -75,6 +75,7 @@ includeDirectories:
   - Src/**
   - Core/Src/**
   - Core/Lib/**
+  - Lib/policanbent/**
 
 
 # Files that should be included in the compilation.
@@ -86,6 +87,7 @@ sourceFiles:
   - Src/**
   - Core/Src/**
   - Core/Lib/**
+  - Lib/policanbent/**
 
 
 # When no makefile is present it will show a warning pop-up.

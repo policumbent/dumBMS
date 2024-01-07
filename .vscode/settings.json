@@ -2,7 +2,9 @@
     "files.associations": {
         "bat.h": "c",
         "adc.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "can.h": "c",
+        "policanbent.h": "c"
     },
     "cortex-debug.armToolchainPath": "/usr/bin",
     "cortex-debug.openocdPath": "/usr/bin/openocd"
