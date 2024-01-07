@@ -25,7 +25,10 @@ static void can_tx_header_init(CAN_TxHeaderTypeDef *tx_header,
                                uint32_t std_id,
                                uint32_t dlc);
 
-
+/**
+ * @brief Initializes the CAN transmission headers (with the right ID), starts
+ *        CAN peripheral
+ */
 void can_init() {
     can_id_selected = HAL_GPIO_ReadPin(CAN_ID_Selector_GPIO_Port, CAN_ID_Selector_Pin);
 
@@ -51,7 +54,9 @@ void can_init() {
     can_last_time_ms = HAL_GetTick();
 }
 
-
+/**
+ * @brief Encodes and sends the batteries voltages on the CAN Bus
+ */
 void can_send_bat_status() {
     can_curr_time_ms = HAL_GetTick();
     
@@ -71,7 +76,12 @@ void can_send_bat_status() {
     }
 }
 
-
+/**
+ * @brief Encodes and sends the error frame on the CAN Bus if any undervoltage
+ *        is detected
+ * @param bat_undervolt_arr: is a MAX_BATTERY_N long array, which stores the
+ *        undervoltage flags for each LiPo
+ */
 void can_send_bat_err(uint8_t *bat_undervolt_arr) {
     struct policanbent_dumbms1_error_t data_frame;
     data_frame.bat0_under_volt = policanbent_dumbms1_error_bat0_under_volt_encode(bat_undervolt_arr[0]);
@@ -87,7 +97,12 @@ void can_send_bat_err(uint8_t *bat_undervolt_arr) {
     HAL_CAN_AddTxMessage(&hcan1, &msg_bat_data.tx_header, msg_bat_data.data, &mailbox);
 }
 
-
+/**
+ * @brief Initializes a CAN TX Header for not extended frames
+ * @param tx_header: header by reference
+ * @param std_id: standard (not extended) ID
+ * @param dlc: frame length
+ */
 static void can_tx_header_init(CAN_TxHeaderTypeDef *tx_header,
                                uint32_t std_id,
                                uint32_t dlc) {

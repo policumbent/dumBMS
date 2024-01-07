@@ -73,9 +73,10 @@ void bat_adc_callback() {
 
 /**
  * @brief Every BAT_POLLING_PERIOD this function will check any undervoltage on
- *        the batteries, if so, it will call bat_undervolt_err()
+ *        the batteries, if so, it will call bat_undervolt_err(), it also
+ *        updates LEDs values
  */
-void bat_undervolt_check() {
+void bat_volt_check() {
     uint8_t flg = 0;
     bat_curr_time_ms = HAL_GetTick();
 
@@ -85,6 +86,7 @@ void bat_undervolt_check() {
                 bat_undervolt_arr[i] = 1;
                 flg = 1;
             }
+            /* TODO: manage LEDs (firstly do finish bat_adc_callback) */
         }
 
         if (flg) {

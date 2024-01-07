@@ -109,7 +109,7 @@ int main(void)
   {
     button_polling();
     can_send_bat_status();
-    bat_undervolt_check();
+    bat_volt_check();
 
     /* USER CODE END WHILE */
 
