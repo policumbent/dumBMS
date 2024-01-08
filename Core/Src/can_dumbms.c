@@ -61,19 +61,23 @@ void can_send_bat_status() {
     can_curr_time_ms = HAL_GetTick();
     
     if (can_curr_time_ms - can_last_time_ms >= CAN_SENDING_PERIOD) {
-        struct policanbent_dumbms1_data_t data_frame;
-        data_frame.bat0_voltage = policanbent_dumbms1_data_bat0_voltage_encode(bat_get_cell_volt(0));
-        data_frame.bat1_voltage = policanbent_dumbms1_data_bat1_voltage_encode(bat_get_cell_volt(1));
-        data_frame.bat2_voltage = policanbent_dumbms1_data_bat2_voltage_encode(bat_get_cell_volt(2));
-        data_frame.bat3_voltage = policanbent_dumbms1_data_bat3_voltage_encode(bat_get_cell_volt(3));
-        data_frame.bat4_voltage = policanbent_dumbms1_data_bat4_voltage_encode(bat_get_cell_volt(4));
-
-        policanbent_dumbms1_data_pack(msg_bat_data.data, &data_frame, POLICANBENT_DUMBMS1_DATA_LENGTH);
-
-        uint32_t mailbox;
-
-        HAL_CAN_AddTxMessage(&hcan1, &msg_bat_data.tx_header, msg_bat_data.data, &mailbox);
+        return;
     }
+
+    struct policanbent_dumbms1_data_t data_frame;
+    data_frame.bat0_voltage = policanbent_dumbms1_data_bat0_voltage_encode(bat_get_cell_volt(0));
+    data_frame.bat1_voltage = policanbent_dumbms1_data_bat1_voltage_encode(bat_get_cell_volt(1));
+    data_frame.bat2_voltage = policanbent_dumbms1_data_bat2_voltage_encode(bat_get_cell_volt(2));
+    data_frame.bat3_voltage = policanbent_dumbms1_data_bat3_voltage_encode(bat_get_cell_volt(3));
+    data_frame.bat4_voltage = policanbent_dumbms1_data_bat4_voltage_encode(bat_get_cell_volt(4));
+
+    policanbent_dumbms1_data_pack(msg_bat_data.data, &data_frame, POLICANBENT_DUMBMS1_DATA_LENGTH);
+
+    uint32_t mailbox;
+
+    HAL_CAN_AddTxMessage(&hcan1, &msg_bat_data.tx_header, msg_bat_data.data, &mailbox);
+
+    can_last_time_ms = can_curr_time_ms;
 }
 
 /**

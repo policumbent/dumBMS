@@ -26,12 +26,14 @@ void button_polling() {
     but_curr_time_ms = HAL_GetTick();
 
     if (but_curr_time_ms - but_last_time_ms >= BUTTON_POLLING_PERIOD) {
-        if (!button_update_val(&but_bat_stat)) {
-            bat_led_status_on_callback();
-        }
-
-        but_last_time_ms = HAL_GetTick();
+        return;
     }
+
+    if (!button_update_val(&but_bat_stat)) {
+        bat_led_status_on_callback();
+    }
+
+    but_last_time_ms = but_curr_time_ms;
 }
 
 /**

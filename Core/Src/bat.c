@@ -89,29 +89,33 @@ void bat_volt_check() {
     uint8_t flg = 0;
     bat_curr_time_ms = HAL_GetTick();
 
-    if (bat_curr_time_ms - bat_last_time_ms >= BAT_POLLING_PERIOD) {
-        for (uint8_t i = 0; i < MAX_BATTERY_N; i++) {
-            if (batteries[i].charge <= BAT_CELL_NOM_VOLT) {
-                bat_undervolt_arr[i] = 1;
-                flg = 1;
-            }
-            
-            if (batteries[i].charge >= BAT_1ST_STEP) {
-                batteries[i].led_pins[0] = 1;
-                batteries[i].led_pins[1] = 1;
-            } else if (batteries[i].charge >= BAT_2ST_STEP) {
-                batteries[i].led_pins[0] = 1;
-                batteries[i].led_pins[1] = 0;
-            } else {
-                batteries[i].led_pins[0] = 0;
-                batteries[i].led_pins[1] = 0;
-            }
-        }
+    if (bat_curr_time_ms - bat_last_time_ms < BAT_POLLING_PERIOD) {
+        return;
+    }
 
-        if (flg) {
-            bat_undervolt_err();
+    for (uint8_t i = 0; i < MAX_BATTERY_N; i++) {
+        if (batteries[i].charge <= BAT_CELL_NOM_VOLT) {
+            bat_undervolt_arr[i] = 1;
+            flg = 1;
+        }
+        
+        if (batteries[i].charge >= BAT_1ST_STEP) {
+            batteries[i].led_pins[0] = 1;
+            batteries[i].led_pins[1] = 1;
+        } else if (batteries[i].charge >= BAT_2ST_STEP) {
+            batteries[i].led_pins[0] = 1;
+            batteries[i].led_pins[1] = 0;
+        } else {
+            batteries[i].led_pins[0] = 0;
+            batteries[i].led_pins[1] = 0;
         }
     }
+
+    if (flg) {
+        bat_undervolt_err();
+    }
+
+    bat_last_time_ms = bat_curr_time_ms;
 }
 
 
