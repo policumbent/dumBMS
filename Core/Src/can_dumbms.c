@@ -60,7 +60,7 @@ void can_init() {
 void can_send_bat_status() {
     can_curr_time_ms = HAL_GetTick();
     
-    if (can_curr_time_ms - can_last_time_ms >= CAN_SENDING_PERIOD) {
+    if (can_curr_time_ms - can_last_time_ms < CAN_SENDING_PERIOD) {
         return;
     }
 

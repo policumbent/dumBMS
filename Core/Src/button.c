@@ -25,7 +25,7 @@ void button_init() {
 void button_polling() {
     but_curr_time_ms = HAL_GetTick();
 
-    if (but_curr_time_ms - but_last_time_ms >= BUTTON_POLLING_PERIOD) {
+    if (but_curr_time_ms - but_last_time_ms < BUTTON_POLLING_PERIOD) {
         return;
     }
 
