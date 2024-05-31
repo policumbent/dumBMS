@@ -6,7 +6,7 @@
 #include "bat.h"
 
 
-#define POLLING_PERIOD 50U
+#define BUTTON_POLLING_PERIOD 50u
 
 
 typedef struct {

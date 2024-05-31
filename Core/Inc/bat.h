@@ -13,7 +13,7 @@
 
 #define BAT_LED_N 2     /* has to be the same as status leds for each battery */
 
-#define BAT_POLLING_PERIOD 1000u
+#define BAT_POLLING_PERIOD 100u
 
 
 typedef struct {

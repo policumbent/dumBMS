@@ -4,7 +4,8 @@
         "adc.h": "c",
         "main.h": "c",
         "can.h": "c",
-        "policanbent.h": "c"
+        "policanbent.h": "c",
+        "button.h": "c"
     },
     "cortex-debug.armToolchainPath": "/usr/bin",
     "cortex-debug.openocdPath": "/usr/bin/openocd"

@@ -4,8 +4,8 @@
 
 #define BAT_CELL_MAX_VOLT 4.2f
 #define BAT_CELL_NOM_VOLT 3.7f
-#define BAT_MAX_READ_VOLT 2.857f
-#define BAT_MAX_ADC_VAL 3541
+#define BAT_MAX_READ_VOLT 2.1f
+#define BAT_MAX_ADC_VAL 2605.0f
 #define BAT_LPF_ALPHA 0.1f
 
 #define BAT_1ST_STEP 4.0f
@@ -74,8 +74,8 @@ void bat_adc_callback() {
 
     for (uint8_t i = 0; i < MAX_BATTERY_N; i++) {
         if (batteries[i].is_connected) {
-            tmp = (bat_dma_buf[i] / BAT_MAX_ADC_VAL) * BAT_CELL_MAX_VOLT;
-            batteries[i].charge = ((1 - BAT_LPF_ALPHA) * tmp) + (BAT_LPF_ALPHA * batteries[i].charge);
+            tmp = ((float)bat_dma_buf[i] / BAT_MAX_ADC_VAL) * BAT_CELL_MAX_VOLT;
+            batteries[i].charge = ((1.0f - BAT_LPF_ALPHA) * tmp) + (BAT_LPF_ALPHA * batteries[i].charge);
         }
     }
 }
@@ -101,15 +101,21 @@ void bat_volt_check() {
         }
         
         if (batteries[i].charge >= BAT_1ST_STEP) {
-            batteries[i].led_pins[0] = 1;
-            batteries[i].led_pins[1] = 1;
+            batteries[i].led_status[0] = 1;
+            batteries[i].led_status[1] = 1;
         } else if (batteries[i].charge >= BAT_2ST_STEP) {
-            batteries[i].led_pins[0] = 1;
-            batteries[i].led_pins[1] = 0;
+            batteries[i].led_status[0] = 1;
+            batteries[i].led_status[1] = 0;
         } else {
-            batteries[i].led_pins[0] = 0;
-            batteries[i].led_pins[1] = 0;
+            batteries[i].led_status[0] = 0;
+            batteries[i].led_status[1] = 0;
         }
+
+        #if DEBUG
+            char buf[50];
+            sprintf(buf, "bat[%d]: %d\r\n", i, (uint16_t)(batteries[i].charge*1000));
+            HAL_UART_Transmit(&huart2, (uint8_t *)buf, strlen(buf), 100);
+        #endif /* DEBUG */
     }
 
     if (flg) {
@@ -149,6 +155,8 @@ void bat_led_status_off_callback() {
                               RESET);
         }
     }
+
+    HAL_TIM_Base_Stop_IT(&htim3);
 }
 
 

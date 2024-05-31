@@ -25,6 +25,12 @@ void button_init() {
 void button_polling() {
     but_curr_time_ms = HAL_GetTick();
 
+    #if DEBUG > 1
+        char buf[50];
+        sprintf(buf, "curr: %u, last: %u\r\n", but_curr_time_ms, but_last_time_ms);
+        HAL_UART_Transmit(&huart2, (uint8_t *)buf, strlen(buf), 100);
+    #endif /* DEBUG */
+
     if (but_curr_time_ms - but_last_time_ms < BUTTON_POLLING_PERIOD) {
         return;
     }
@@ -43,9 +49,9 @@ void button_polling() {
  * @param pin: GPIO pin
  */
 static void button_val_init(button_t *button, GPIO_TypeDef *port, uint16_t pin) {
-    button->val_previous = 0;
-    button->val_current = 0;
-    button->val_debounced = 0;
+    button->val_previous = 1;
+    button->val_current = 1;
+    button->val_debounced = 1;
     button->is_toggled = 0;
     button->port = port;
     button->pin = pin;
@@ -65,6 +71,10 @@ static uint8_t button_update_val(button_t *button) {
     } else if (button->is_toggled) {
         button->is_toggled = 0;
         button->val_debounced = button->val_previous;
+    }
+
+    if (button->val_current) {
+        button->val_debounced = 1;
     }
 
     return button->val_debounced;
