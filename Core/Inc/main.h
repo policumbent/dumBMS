@@ -88,6 +88,14 @@ void Error_Handler(void);
 #define BAT0_LED0_GPIO_Port GPIOB
 #define BAT0_LED1_Pin GPIO_PIN_13
 #define BAT0_LED1_GPIO_Port GPIOB
+#define BAT1_DISABLE_Pin GPIO_PIN_14
+#define BAT1_DISABLE_GPIO_Port GPIOB
+#define BAT2_DISABLE_Pin GPIO_PIN_15
+#define BAT2_DISABLE_GPIO_Port GPIOB
+#define BAT3_DISABLE_Pin GPIO_PIN_6
+#define BAT3_DISABLE_GPIO_Port GPIOC
+#define BAT4_DISABLE_Pin GPIO_PIN_7
+#define BAT4_DISABLE_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
