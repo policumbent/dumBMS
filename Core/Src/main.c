@@ -96,6 +96,7 @@ int main(void)
   MX_CAN1_Init();
   MX_TIM3_Init();
   MX_I2C1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_GPIO_WritePin(LD2_MCU_STATUS_GPIO_Port, LD2_MCU_STATUS_Pin, SET);
