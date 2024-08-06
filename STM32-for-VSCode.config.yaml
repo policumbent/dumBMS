@@ -76,6 +76,7 @@ includeDirectories:
   - Core/Src/**
   - Core/Lib/**
   - Lib/policanbent/**
+  - Drivers/INA228/**
 
 
 # Files that should be included in the compilation.
@@ -88,6 +89,7 @@ sourceFiles:
   - Core/Src/**
   - Core/Lib/**
   - Lib/policanbent/**
+  - Drivers/INA228/**
 
 
 # When no makefile is present it will show a warning pop-up.

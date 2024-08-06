@@ -25,6 +25,8 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+#include "coulomb_estimator.h"
+#include "../../Drivers/INA228/INA228.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -96,13 +98,25 @@ int main(void)
   MX_CAN1_Init();
   MX_TIM3_Init();
   MX_I2C1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_GPIO_WritePin(LD2_MCU_STATUS_GPIO_Port, LD2_MCU_STATUS_Pin, SET);
   bat_init();
   button_init();
   can_init();
+
+  INA228_HandleTypeDef ina228_1;
+  INA228_HandleTypeDef ina228_2;
   
+  INA228_Init(&ina228_1, &hi2c1, 0x40, 1, 2, 4, 3, 0.450, 0.350);
+  INA228_Init(&ina228_1, &hi2c1, 0x41, 1, 2, 4, 3, 0.100, 1.4);
+
+  CoulombEst_HandleTypeDef line1 = CoulombEst_InitIntegral(&ina228_1, 0.1);
+  CoulombEst_HandleTypeDef line2 = CoulombEst_InitIntegral(&ina228_2, 0.1);
+  
+  uint64_t coul_sens_tick=HAL_GetTick();
+  uint64_t tick;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -112,7 +126,11 @@ int main(void)
     button_polling();
     can_send_bat_status();
     bat_volt_check();
-
+    tick=HAL_GetTick();
+    if(coul_sens_tick-tick >= 100){
+      CoulombEst_addSampleFromSens(&line1);
+      CoulombEst_addSampleFromSens(&line2);
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

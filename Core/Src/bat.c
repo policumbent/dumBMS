@@ -27,35 +27,35 @@ static void bat_undervolt_err();
   *        through the DIP Switch
   */
 void bat_init() {
-    batteries[0].led_ports[0]    = BAT0_LED0_GPIO_Port;
-    batteries[0].led_ports[1]    = BAT0_LED1_GPIO_Port;
-    batteries[0].led_pins[0]     = BAT0_LED0_Pin;
-    batteries[0].led_pins[1]     = BAT0_LED1_Pin;
-    batteries[0].is_connected    = 1; // I mean, otherwise this line of code wouldn't be executed
+    //batteries[0].led_ports[0]    = BAT0_LED0_GPIO_Port;
+    //batteries[0].led_ports[1]    = BAT0_LED1_GPIO_Port;
+    //batteries[0].led_pins[0]     = BAT0_LED0_Pin;
+    //batteries[0].led_pins[1]     = BAT0_LED1_Pin;
+    //batteries[0].is_connected    = 1; // I mean, otherwise this line of code wouldn't be executed
 
-    batteries[1].led_ports[0]    = BAT1_LED0_GPIO_Port;
-    batteries[1].led_ports[1]    = BAT1_LED1_GPIO_Port;
-    batteries[1].led_pins[0]     = BAT1_LED0_Pin;
-    batteries[1].led_pins[1]     = BAT1_LED1_Pin;
-    batteries[1].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_1_GPIO_Port, BAT_SEL_1_Pin);
+    //  batteries[1].led_ports[0]    = BAT1_LED0_GPIO_Port;
+    //batteries[1].led_ports[1]    = BAT1_LED1_GPIO_Port;
+    //batteries[1].led_pins[0]     = BAT1_LED0_Pin;
+    //batteries[1].led_pins[1]     = BAT1_LED1_Pin;
+    //batteries[1].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_1_GPIO_Port, BAT_SEL_1_Pin);
 
-    batteries[2].led_ports[0]    = BAT2_LED0_GPIO_Port;
-    batteries[2].led_ports[1]    = BAT2_LED1_GPIO_Port;
-    batteries[2].led_pins[0]     = BAT2_LED0_Pin;
-    batteries[2].led_pins[1]     = BAT2_LED1_Pin;
-    batteries[2].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_2_GPIO_Port, BAT_SEL_2_Pin);
+    //batteries[2].led_ports[0]    = BAT2_LED0_GPIO_Port;
+    //batteries[2].led_ports[1]    = BAT2_LED1_GPIO_Port;
+    //batteries[2].led_pins[0]     = BAT2_LED0_Pin;
+    //batteries[2].led_pins[1]     = BAT2_LED1_Pin;
+    //batteries[2].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_2_GPIO_Port, BAT_SEL_2_Pin);
 
-    batteries[3].led_ports[0]    = BAT3_LED0_GPIO_Port;
-    batteries[3].led_ports[1]    = BAT3_LED1_GPIO_Port;
-    batteries[3].led_pins[0]     = BAT3_LED0_Pin;
-    batteries[3].led_pins[1]     = BAT3_LED1_Pin;
-    batteries[3].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_3_GPIO_Port, BAT_SEL_3_Pin);
+    //batteries[3].led_ports[0]    = BAT3_LED0_GPIO_Port;
+    //batteries[3].led_ports[1]    = BAT3_LED1_GPIO_Port;
+    //batteries[3].led_pins[0]     = BAT3_LED0_Pin;
+    //batteries[3].led_pins[1]     = BAT3_LED1_Pin;
+    //batteries[3].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_3_GPIO_Port, BAT_SEL_3_Pin);
 
-    batteries[4].led_ports[0]    = BAT4_LED0_GPIO_Port;
-    batteries[4].led_ports[1]    = BAT4_LED1_GPIO_Port;
-    batteries[4].led_pins[0]     = BAT4_LED0_Pin;
-    batteries[4].led_pins[1]     = BAT4_LED1_Pin;
-    batteries[4].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_4_GPIO_Port, BAT_SEL_4_Pin);
+    //batteries[4].led_ports[0]    = BAT4_LED0_GPIO_Port;
+    //batteries[4].led_ports[1]    = BAT4_LED1_GPIO_Port;
+    //batteries[4].led_pins[0]     = BAT4_LED0_Pin;
+    //batteries[4].led_pins[1]     = BAT4_LED1_Pin;
+    //batteries[4].is_connected    = HAL_GPIO_ReadPin(BAT_SEL_4_GPIO_Port, BAT_SEL_4_Pin);
 
     memset(bat_undervolt_arr, 0, MAX_BATTERY_N);
 

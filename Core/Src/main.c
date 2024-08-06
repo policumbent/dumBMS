@@ -28,7 +28,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "coulomb_estimator.h"
+#include "../../Drivers/INA228/INA228.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -103,7 +104,22 @@ int main(void)
   bat_init();
   button_init();
   can_init();
+
+  INA228_HandleTypeDef ina228_1;
+  INA228_HandleTypeDef ina228_2;
   
+  INA228_Init(&ina228_1, &hi2c1, 0x40, 1, 2, 4, 3, 0.450, 0.350);
+  INA228_Init(&ina228_1, &hi2c1, 0x41, 1, 2, 4, 3, 0.100, 1.4);
+
+  CoulombEst_HandleTypeDef line1 = CoulombEst_InitIntegral(&ina228_1, 0.1);
+  CoulombEst_HandleTypeDef line2 = CoulombEst_InitIntegral(&ina228_2, 0.1);
+  
+  uint64_t coul_sens_tick=HAL_GetTick();
+  uint64_t tick;
+
+  #ifdef DEBUG
+    char dbg_str[100];
+  #endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -113,7 +129,20 @@ int main(void)
     button_polling();
     can_send_bat_status();
     bat_volt_check();
-
+    tick=HAL_GetTick();
+    if(coul_sens_tick-tick >= 100){
+      CoulombEst_addSampleFromSens(&line1);
+      CoulombEst_addSampleFromSens(&line2);
+      coul_sens_tick=tick;
+      #ifdef DEBUG
+        sprintf(dbg_str, "BAT1: %fA, %fC\nBAT2: %fA, %fC\n", line1.curr_val, line1.integral, line2.curr_val, line2.integral);
+        //sprintf(dbg_str, "BAT1: %d.%dA, %d.%dC\nBAT2: %d.%dA, %d.%dC\n", 
+        //        line1.curr_val/10, (int)line1.curr_val%10, line1.integral/10, (int)line1.integral%10, 
+        //        line2.curr_val/10, (int)line2.curr_val%10, line2.integral/10, (int)line2.integral%10);
+        HAL_UART_Transmit(&huart2, dbg_str, strlen(dbg_str), 50);
+      
+      #endif
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
